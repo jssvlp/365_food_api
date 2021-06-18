@@ -9,6 +9,13 @@ use App\Models\Product;
 
 class ProductService
 {
+    private $facturascriptService;
+
+    public function __construct()
+    {
+        $this->facturascriptService = new FacturascriptService();
+    }
+
     public function productOrderByCategories(): array
     {
         $categories = Category::all();
@@ -28,6 +35,30 @@ class ProductService
 
     public function productsUsingApi()
     {
-        return (new FacturascriptService())->get('products');
+        return $this->facturascriptService->get('products');
+    }
+
+    public function getStocks()
+    {
+        return $this->facturascriptService->get('stocks');
+    }
+
+    public function updateStock(int $stockId, int $stock)
+    {
+        $data = [
+            'disponible' => $stock,
+            'cantidad' => $stock
+        ];
+    }
+
+    public function getStock(int $productId)
+    {
+        $stocks = collect($this->getStocks());
+
+        $stock =  $stocks->map(function ($stock) use ($productId){
+             dump($stock);
+        });
+        exit();
+        dd($stock);
     }
 }

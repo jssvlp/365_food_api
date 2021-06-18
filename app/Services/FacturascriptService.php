@@ -33,6 +33,12 @@ class FacturascriptService
         return json_decode($response->getBody()->getContents());
     }
 
+    public function put(int $resourceId, array $data, string $resource)
+    {
+
+
+    }
+
 
 
 

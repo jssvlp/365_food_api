@@ -20,17 +20,17 @@ class OrderService
             {
                 $item['idfactura'] = $order->data->idfactura;
                 $itemInsert = $facturascriptService->post($item, 'lineafacturaclientes');
+
+                //TODO: actualizar el stock
+                $productService = new ProductService();
+
+                $productService->getStock($item['idproducto']);
             }
         }
+
         return new FacturascriptResponse(
             true,
             'Factura creada correctamente!'
         );
-    }
-
-
-    public function insertItems()
-    {
-
     }
 }
