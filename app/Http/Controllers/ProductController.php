@@ -5,30 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Http;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
-    public function all()
+    public function all(): \Illuminate\Http\JsonResponse
     {
-        $categories = Category::all();
-        $productsCategories = [];
+        $products = (new ProductService())->productOrderByCategories();
 
-        foreach ($categories as $category)
-        {
-            $products = Product::where('codfamilia', $category->codfamilia)->get();
-
-            $_category = [
-                'name' => $category->descripcion,
-                'products' => $products
-            ];
-
-            array_push($productsCategories, $_category);
-        }
-
-        
         return response()->json([
             'success' => true,
-            'categories' => $productsCategories
+            'categories' => $products
         ]);
+    }
+
+    public function getProductsFromApi(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(['success' => true , 'data' => (new ProductService())->productsUsingApi()]);
     }
 }
