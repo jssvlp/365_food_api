@@ -14,6 +14,8 @@ class FacturascriptService
      */
     public function createInvoice(Request $request)
     {
+        $fsApiUrl = env('FS_API_URL') . '/facturaclientes';
+
 
     }
 
@@ -22,15 +24,14 @@ class FacturascriptService
         $fsApiUrl = env('FS_API_URL') . '/productos';
         $apiKey = env('FS_API_KEY');
 
-
         $response = Http::withHeaders([
             'Token' => $apiKey,
-
-        ])->get($fsApiUrl, [
-
-        ]);
+        ])->get($fsApiUrl, []);
 
         return json_decode($response->getBody()->getContents());
     }
+
+
+
 
 }

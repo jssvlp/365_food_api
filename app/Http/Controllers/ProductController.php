@@ -22,6 +22,6 @@ class ProductController extends Controller
 
     public function getProductsFromApi(): \Illuminate\Http\JsonResponse
     {
-        return response()->json(['success' => true , 'data' => (new ProductService())->productsUsingApi()]);
+        return response()->json(['success' => true , 'products' => (new ProductService())->productsUsingApi()]);
     }
 }
