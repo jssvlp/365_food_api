@@ -28,6 +28,6 @@ class ProductService
 
     public function productsUsingApi()
     {
-        return (new FacturascriptService())->getProducts();
+        return (new FacturascriptService())->get('products');
     }
 }

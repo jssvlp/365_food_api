@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 class CategoryController extends Controller
@@ -11,7 +12,7 @@ class CategoryController extends Controller
     {
         return response()->json([
             'success' => true,
-            'categories' => Category::with(['products'])->get()
+            'categories' => (new CategoryService())->getCategories()
         ]);
     }
 }

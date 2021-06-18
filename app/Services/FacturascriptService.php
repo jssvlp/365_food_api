@@ -9,24 +9,26 @@ use Illuminate\Support\Facades\Http;
 
 class FacturascriptService
 {
-    /**
-     * @param Request $request
-     */
-    public function createInvoice(Request $request)
+    public function get(string $resource)
     {
-        $fsApiUrl = env('FS_API_URL') . '/facturaclientes';
-
-
-    }
-
-    public function getProducts()
-    {
-        $fsApiUrl = env('FS_API_URL') . '/productos';
+        $fsApiUrl = env('FS_API_URL') .'/'. $resource;
         $apiKey = env('FS_API_KEY');
 
         $response = Http::withHeaders([
             'Token' => $apiKey,
         ])->get($fsApiUrl, []);
+
+        return json_decode($response->getBody()->getContents());
+    }
+
+    public function post(array $data, string $resource)
+    {
+        $fsApiUrl = env('FS_API_URL') .'/'.$resource;
+        $apiKey = env('FS_API_KEY');
+
+        $response = Http::withHeaders([
+            'Token' => $apiKey,
+        ])->asForm()->post($fsApiUrl, $data);
 
         return json_decode($response->getBody()->getContents());
     }

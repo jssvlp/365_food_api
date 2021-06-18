@@ -21,7 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/categories',[Controllers\CategoryController::class,'all']);
 
+//Products
+Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFromApi']);
 Route::get('/products',[Controllers\ProductController::class,'all']);
 
+//Orders
+Route::post('orders',[Controllers\OrderController::class,'store']);
 
-Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFromApi']);
