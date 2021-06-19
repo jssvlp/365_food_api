@@ -38,7 +38,7 @@ class FacturascriptService
         $response = Http::withHeaders([
             'Token' => $apiKey,
         ])->asForm()->post($fsApiUrl, $data);
-
+       
         return json_decode($response->getBody()->getContents());
     }
 

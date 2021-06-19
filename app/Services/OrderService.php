@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 
 class OrderService
 {
+    private $facturascriptService;
+
+    public function __construct()
+    {
+        $this->facturascriptService = new FacturascriptService();
+    }
+
     public function createInvoice(Request $request): FacturascriptResponse
     {
-        $facturascriptService = new FacturascriptService();
-        $order = $facturascriptService->post($request->except('items'), 'facturaclientes');
+
+        $order = $this->facturascriptService->post($request->except('items'), 'facturaclientes');
 
         if(!isset($order->ok) && isset($order->error)){
             return new FacturascriptResponse(
@@ -27,11 +34,21 @@ class OrderService
             foreach($request->items as $item)
             {
                 $item['idfactura'] = $order->data->idfactura;
-                $itemInserted = $facturascriptService->post($item, 'lineafacturaclientes');
+                $itemInserted = $this->facturascriptService->post($item, 'lineafacturaclientes');
 
                 $stock = $productService->getStock($item['idproducto']);
+
                 $newStock = (int) $stock->cantidad - (int) $item['stock'];
                 $productService->updateStock($stock->idstock, $newStock);
+            }
+            $receipt = $this->createReceipt($order);
+
+            if(!isset($receipt->ok) && isset($receipt->error))
+            {
+                return new FacturascriptResponse(
+                    false,
+                    $order->error
+                );
             }
         }
 
@@ -39,5 +56,28 @@ class OrderService
             true,
             'Factura creada correctamente!'
         );
+    }
+
+    public function createReceipt(object  $invoice)
+    {
+        $data = [
+            'codcliente' => $invoice->data->codcliente,
+            'coddivisa' => 'DOP',
+            'codigofactura' => $invoice->data->codigo,
+            'codpago' => 'TRANS',
+            'fecha' => date('d-m-y'),
+            'fechapago' => '',
+            'gastos' => '0',
+            'idempresa' => '1',
+            'idfactura' => $invoice->data->idfactura,
+            'importe' =>  $invoice->data->total,
+            'liquidado' => 0,
+            'nick' => 'admin',
+            'numero' => 1,
+            'observaciones' => null,
+            'pagado' => 0,
+            'vencimiento' => '16-12-2021'
+        ];
+        return $this->facturascriptService->post($data, 'reciboclientes');
     }
 }
