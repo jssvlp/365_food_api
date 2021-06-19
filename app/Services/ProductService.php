@@ -7,8 +7,15 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Product;
 
+/**
+ * Class ProductService
+ * @package App\Services
+ */
 class ProductService
 {
+    /**
+     * @var FacturascriptService
+     */
     private $facturascriptService;
 
     public function __construct()
@@ -35,7 +42,7 @@ class ProductService
 
     public function productsUsingApi()
     {
-        return $this->facturascriptService->get('products');
+        return $this->facturascriptService->get('productos');
     }
 
     public function getStocks()
@@ -43,22 +50,27 @@ class ProductService
         return $this->facturascriptService->get('stocks');
     }
 
-    public function updateStock(int $stockId, int $stock)
+    /**
+     * @param int $stockId
+     * @param int $newStock
+     * @return mixed
+     */
+    public function updateStock(int $stockId, int $newStock)
     {
         $data = [
-            'disponible' => $stock,
-            'cantidad' => $stock
+            'disponible' => $newStock,
+            'cantidad' => $newStock
         ];
+
+        return  $this->facturascriptService->put($stockId, $data, 'stocks');
     }
 
     public function getStock(int $productId)
     {
         $stocks = collect($this->getStocks());
 
-        $stock =  $stocks->map(function ($stock) use ($productId){
-             dump($stock);
-        });
-        exit();
-        dd($stock);
+        return $stocks->filter(function ($stock) use ($productId){
+             return $stock->idproducto == $productId;
+        })->first();
     }
 }

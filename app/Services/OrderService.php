@@ -14,17 +14,24 @@ class OrderService
         $facturascriptService = new FacturascriptService();
         $order = $facturascriptService->post($request->except('items'), 'facturaclientes');
 
+        if(!isset($order->ok) && isset($order->error)){
+            return new FacturascriptResponse(
+                false,
+                $order->error
+            );
+        }
+
         if($order->ok === 'Record updated correctly!')
         {
+            $productService = new ProductService();
             foreach($request->items as $item)
             {
                 $item['idfactura'] = $order->data->idfactura;
-                $itemInsert = $facturascriptService->post($item, 'lineafacturaclientes');
+                $itemInserted = $facturascriptService->post($item, 'lineafacturaclientes');
 
-                //TODO: actualizar el stock
-                $productService = new ProductService();
-
-                $productService->getStock($item['idproducto']);
+                $stock = $productService->getStock($item['idproducto']);
+                $newStock = (int) $stock->cantidad - (int) $item['stock'];
+                $productService->updateStock($stock->idstock, $newStock);
             }
         }
 
