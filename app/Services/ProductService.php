@@ -11,18 +11,8 @@ use App\Models\Product;
  * Class ProductService
  * @package App\Services
  */
-class ProductService
+class ProductService extends FacturascriptService
 {
-    /**
-     * @var FacturascriptService
-     */
-    private $facturascriptService;
-
-    public function __construct()
-    {
-        $this->facturascriptService = new FacturascriptService();
-    }
-
     public function productOrderByCategories(): array
     {
         $categories = Category::all();
@@ -42,12 +32,12 @@ class ProductService
 
     public function productsUsingApi()
     {
-        return $this->facturascriptService->get('productos');
+        return $this->get('productos');
     }
 
     public function getStocks()
     {
-        return $this->facturascriptService->get('stocks');
+        return $this->get('stocks');
     }
 
     /**
@@ -62,7 +52,7 @@ class ProductService
             'cantidad' => $newStock
         ];
 
-        return  $this->facturascriptService->put($stockId, $data, 'stocks');
+        return  $this->put($stockId, $data, 'stocks');
     }
 
     public function getStock(int $productId)

@@ -26,5 +26,8 @@ Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFrom
 Route::get('/products',[Controllers\ProductController::class,'all']);
 
 //Orders
-Route::post('orders',[Controllers\OrderController::class,'store']);
+Route::post('/orders',[Controllers\OrderController::class,'store']);
+
+//Clients
+Route::post('/clients',[Controllers\ClientController::class,'store']);
 

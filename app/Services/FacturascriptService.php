@@ -13,7 +13,7 @@ class FacturascriptService
      * @param string $resource
      * @return mixed
      */
-    public function get(string $resource)
+    protected function get(string $resource)
     {
         $fsApiUrl = env('FS_API_URL') .'/'. $resource;
         $apiKey = env('FS_API_KEY');
@@ -30,7 +30,7 @@ class FacturascriptService
      * @param string $resource
      * @return mixed
      */
-    public function post(array $data, string $resource)
+    protected function post(array $data, string $resource)
     {
         $fsApiUrl = env('FS_API_URL') .'/'.$resource;
         $apiKey = env('FS_API_KEY');
@@ -38,7 +38,7 @@ class FacturascriptService
         $response = Http::withHeaders([
             'Token' => $apiKey,
         ])->asForm()->post($fsApiUrl, $data);
-       
+
         return json_decode($response->getBody()->getContents());
     }
 
@@ -47,7 +47,7 @@ class FacturascriptService
      * @param array $data
      * @param string $resource
      */
-    public function put(int $resourceId, array $data, string $resource)
+    protected function put(int $resourceId, array $data, string $resource)
     {
         $fsApiUrl = env('FS_API_URL') .'/'.$resource.'/'.$resourceId;
         $apiKey = env('FS_API_KEY');

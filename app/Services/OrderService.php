@@ -7,19 +7,14 @@ namespace App\Services;
 use App\Helpers\FacturascriptResponse;
 use Illuminate\Http\Request;
 
-class OrderService
+class OrderService extends FacturascriptService
 {
-    private $facturascriptService;
 
-    public function __construct()
-    {
-        $this->facturascriptService = new FacturascriptService();
-    }
 
     public function createInvoice(Request $request): FacturascriptResponse
     {
 
-        $order = $this->facturascriptService->post($request->except('items'), 'facturaclientes');
+        $order = $this->post($request->except('items'), 'facturaclientes');
 
         if(!isset($order->ok) && isset($order->error)){
             return new FacturascriptResponse(
@@ -34,7 +29,7 @@ class OrderService
             foreach($request->items as $item)
             {
                 $item['idfactura'] = $order->data->idfactura;
-                $itemInserted = $this->facturascriptService->post($item, 'lineafacturaclientes');
+                $itemInserted = $this->post($item, 'lineafacturaclientes');
 
                 $stock = $productService->getStock($item['idproducto']);
 
@@ -78,6 +73,6 @@ class OrderService
             'pagado' => 0,
             'vencimiento' => '16-12-2021'
         ];
-        return $this->facturascriptService->post($data, 'reciboclientes');
+        return $this->post($data, 'reciboclientes');
     }
 }
