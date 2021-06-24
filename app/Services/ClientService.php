@@ -27,4 +27,22 @@ class ClientService extends FacturascriptService
         );
 
     }
+
+    public function getClient($codcliente)
+    {
+        $client = $this->get('clientes',$codcliente);
+
+        if(!isset($client->ok) && isset($client->error)){
+            return new FacturascriptResponse(
+                false,
+                $client->error
+            );
+        }
+
+        return new FacturascriptResponse(
+            true,
+            'Consulta ejecutada correctamente',
+            (array)$client
+        );
+    }
 }

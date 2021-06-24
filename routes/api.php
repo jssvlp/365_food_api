@@ -30,4 +30,4 @@ Route::post('/orders',[Controllers\OrderController::class,'store']);
 
 //Clients
 Route::post('/clients',[Controllers\ClientController::class,'store']);
-
+Route::get('/clients/{codcliente}',[Controllers\ClientController::class,'get']);

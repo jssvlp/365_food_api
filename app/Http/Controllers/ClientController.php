@@ -21,4 +21,11 @@ class ClientController extends Controller
 
         return response()->json(['success' => $response->success, 'message' => $response->message, 'data' => $response->data]);
     }
+
+    public function get($codclient): JsonResponse
+    {
+        $response = $this->clientService->getClient($codclient);
+
+        return response()->json(['success' => $response->success, 'message' => null, 'data' => $response->data]);
+    }
 }

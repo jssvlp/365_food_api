@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Http;
 
 class FacturascriptService
 {
+
     /**
      * @param string $resource
+     * @param string|null $resourceCode
      * @return mixed
      */
-    protected function get(string $resource)
+    protected function get(string $resource, string $resourceCode = null)
     {
         $fsApiUrl = env('FS_API_URL') .'/'. $resource;
+        $fsApiUrl = $resourceCode != null ? $fsApiUrl.'/'.$resourceCode : $fsApiUrl;
+
         $apiKey = env('FS_API_KEY');
 
         $response = Http::withHeaders([
@@ -24,6 +28,7 @@ class FacturascriptService
 
         return json_decode($response->getBody()->getContents());
     }
+
 
     /**
      * @param array $data
