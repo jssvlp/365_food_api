@@ -42,14 +42,15 @@ class OrderService extends FacturascriptService
             {
                 return new FacturascriptResponse(
                     false,
-                    $order->error
+                    $receipt->error
                 );
             }
         }
 
         return new FacturascriptResponse(
             true,
-            'Factura creada correctamente!'
+            'Factura creada correctamente!',
+            (array)$order->data
         );
     }
 
