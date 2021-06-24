@@ -15,6 +15,16 @@ class ClientController extends Controller
         $this->clientService = new ClientService();
     }
 
+    public function all()
+    {
+        $response = $this->clientService->all();
+
+        return response()->json([
+            'success' => $response->success,
+            'message' => null,
+            'data' => $response->data
+        ]);
+    }
     public function store(Request $request): JsonResponse
     {
         $response = $this->clientService->create($request);
