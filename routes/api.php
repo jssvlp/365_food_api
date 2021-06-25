@@ -33,3 +33,9 @@ Route::post('/clients',[Controllers\ClientController::class,'store']);
 Route::get('/clients/{codcliente}',[Controllers\ClientController::class,'get']);
 Route::get('/clients',[Controllers\ClientController::class,'all']);
 
+//Client address
+Route::post('/address', [Controllers\AddressController::class, 'store']);
+Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,'get']);
+
+
+
