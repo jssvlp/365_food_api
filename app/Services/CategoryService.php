@@ -4,10 +4,10 @@
 namespace App\Services;
 
 
-class CategoryService
+class CategoryService extends FacturascriptService
 {
     public function getCategories()
     {
-        return (new FacturascriptService())->get('familias');
+        return $this->get('familias');
     }
 }
