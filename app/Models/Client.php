@@ -9,5 +9,5 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $table = 'productos';
+    protected $table = 'clientes';
 }

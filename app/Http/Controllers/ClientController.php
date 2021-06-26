@@ -41,6 +41,7 @@ class ClientController extends Controller
 
         //2. Create user in supabase
         $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/signup';
+
         $userSupabase = Http::post($supabaseApiUrl,$request->user);
 
         $responseDecoded  = json_decode($userSupabase->getBody()->getContents());
