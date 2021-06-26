@@ -30,7 +30,7 @@ class ProductController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Consulta realizada correctamente!',
-            'data' => Product::where('codfamilia',$codfamilia)->get()
+            'products' => Product::where('codfamilia', $codfamilia)->get()
         ]);
     }
 }

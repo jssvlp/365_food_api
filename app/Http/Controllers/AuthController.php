@@ -27,4 +27,13 @@ class AuthController extends Controller
             'clientInfo' => $client
         ]);
     }
+
+    public function signOut(Request $request)
+    {
+        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/signOut';
+
+        $response = Http::post($supabaseApiUrl,$request->all());
+
+        $userInfo  = json_decode($response->getBody()->getContents());
+    }
 }
