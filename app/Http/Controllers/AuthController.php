@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
         //1. Make login in supabase
         $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/login';
-        dd($supabaseApiUrl);
+
         $response = Http::post($supabaseApiUrl,$request->all());
 
         $userInfo  = json_decode($response->getBody()->getContents());
