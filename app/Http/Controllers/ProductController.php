@@ -24,4 +24,13 @@ class ProductController extends Controller
     {
         return response()->json(['success' => true , 'products' => (new ProductService())->productsUsingApi()]);
     }
+
+    public function getProductsByFamily($codfamilia)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Consulta realizada correctamente!',
+            'data' => Product::where('codfamilia',$codfamilia)->get()
+        ]);
+    }
 }

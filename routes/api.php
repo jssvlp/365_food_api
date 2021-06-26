@@ -24,6 +24,7 @@ Route::get('/categories',[Controllers\CategoryController::class,'all']);
 //Products
 Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFromApi']);
 Route::get('/products',[Controllers\ProductController::class,'all']);
+Route::get('/products/category/{codfamilia}',[Controllers\ProductController::class,'getProductsByFamily']);
 
 //Orders
 Route::post('/orders',[Controllers\OrderController::class,'store']);
