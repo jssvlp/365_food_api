@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Helpers\FacturascriptResponse;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientService extends FacturascriptService
@@ -12,7 +13,10 @@ class ClientService extends FacturascriptService
 
     public function create(Request $request): FacturascriptResponse
     {
-        $client = $this->post($request->all(),'clientes');
+        $clientInfo = $request->except('user');
+        $clientInfo['email'] = $request->user['email'];
+
+        $client = $this->post($clientInfo,'clientes');
 
         if(!isset($client->ok) && isset($client->error)){
             return new FacturascriptResponse(
@@ -61,5 +65,10 @@ class ClientService extends FacturascriptService
             'Consulta ejecutada correctamente',
             (array)$client
         );
+    }
+
+    public function getClientByEmail($email)
+    {
+        return Client::where('email', $email)->first();
     }
 }
