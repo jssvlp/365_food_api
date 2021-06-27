@@ -34,6 +34,11 @@ class AuthController extends Controller
 
         $response = Http::post($supabaseApiUrl,$request->all());
 
-        $userInfo  = json_decode($response->getBody()->getContents());
+        $response  = json_decode($response->getBody()->getContents());
+
+        return response()->json([
+            'success' => true,
+            'data' => $response
+        ]);
     }
 }

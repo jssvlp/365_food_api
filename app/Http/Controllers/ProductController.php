@@ -20,6 +20,22 @@ class ProductController extends Controller
         ]);
     }
 
+    public function get($idproducto): \Illuminate\Http\JsonResponse
+    {
+        $product = Product::find($idproducto);
+
+        if($product){
+
+            $product['category'] = $product->category;
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'product' => $product
+        ]);
+    }
+
     public function getProductsFromApi(): \Illuminate\Http\JsonResponse
     {
         return response()->json(['success' => true , 'products' => (new ProductService())->productsUsingApi()]);

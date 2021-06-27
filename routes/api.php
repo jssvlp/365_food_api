@@ -24,6 +24,7 @@ Route::get('/categories',[Controllers\CategoryController::class,'all']);
 //Products
 Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFromApi']);
 Route::get('/products',[Controllers\ProductController::class,'all']);
+Route::get('/products/{idproducto}',[Controllers\ProductController::class, 'get']);
 Route::get('/products/category/{codfamilia}',[Controllers\ProductController::class,'getProductsByFamily']);
 
 //Orders
@@ -40,6 +41,7 @@ Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,
 
 //Auth
 Route::post('/auth/login', [Controllers\AuthController::class, 'login']);
+Route::post('/auth/signOut', [Controllers\AuthController::class, 'signOut']);
 
 
 

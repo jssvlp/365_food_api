@@ -11,10 +11,10 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'productos';
-
+    protected $primaryKey = 'idproducto';
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class,'familias','idproducto','codfamilia');
+        return $this->belongsTo(Category::class,'codfamilia','codfamilia');
     }
 }
