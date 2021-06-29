@@ -19,13 +19,20 @@ class OrderService extends FacturascriptService
         $orderParams['codoperaciondoc'] = 'ESTANDAR';
         $orderParams['codsubtipodoc'] = 'FACTURAVENTA';
         $orderParams['totalcomision'] = 0;
-        $orderParams['codoperaciondoc'] = '';
-        $orderParams['codoperaciondoc'] = '';
-        $orderParams['codoperaciondoc'] = '';
+        $orderParams['cifnif'] = trim('');
+        $orderParams['codalmacen'] = 'ALG'; //implementar endpoint empresas
+        $orderParams['irpf'] = 0;
+        $orderParams['idempresa'] = 1;//implementar endpoint empresas
+        $orderParams['nick'] = 'admin';
+        $orderParams['fecha'] = date('d-m-Y');
+        $orderParams['hora'] = date('H:m:s');
+        $orderParams['nick'] = 'admin';
+        $orderParams['codejercicio'] = date('Y');
+        $orderParams['pagada'] = 0;
+        $orderParams['codserie'] = 'A';
 
 
-
-        $order = $this->post($request->except('items'), 'facturaclientes');
+        $order = $this->post($orderParams, 'facturaclientes');
 
         if(!isset($order->ok) && isset($order->error)){
             return new FacturascriptResponse(
