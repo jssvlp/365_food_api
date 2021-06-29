@@ -11,7 +11,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         //1. Make login in supabase
-        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/login';
+        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/singIn';
 
         $response = Http::post($supabaseApiUrl,$request->all());
 
