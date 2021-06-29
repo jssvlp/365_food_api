@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function store(Request $request)
     {
-        $order = (new OrderService())->createInvoice($request);
+        $order = (new OrderService())->createOrder($request);
 
         $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/orders';
 

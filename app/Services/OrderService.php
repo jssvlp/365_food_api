@@ -11,8 +11,19 @@ class OrderService extends FacturascriptService
 {
 
 
-    public function createInvoice(Request $request): FacturascriptResponse
+    public function createOrder(Request $request): FacturascriptResponse
     {
+
+        $orderParams =  $request->except(['items','direccionorden']);
+
+        $orderParams['codoperaciondoc'] = 'ESTANDAR';
+        $orderParams['codsubtipodoc'] = 'FACTURAVENTA';
+        $orderParams['totalcomision'] = 0;
+        $orderParams['codoperaciondoc'] = '';
+        $orderParams['codoperaciondoc'] = '';
+        $orderParams['codoperaciondoc'] = '';
+
+
 
         $order = $this->post($request->except('items'), 'facturaclientes');
 

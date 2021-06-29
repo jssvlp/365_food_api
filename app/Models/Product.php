@@ -11,6 +11,7 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'productos';
+    protected $primaryKey = 'idproducto';
 
     public function category(): BelongsTo
     {
