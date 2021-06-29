@@ -11,11 +11,6 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'productos';
-    protected $primaryKey = 'idproducto';
-
-    protected $casts = [
-        'codfamilia' => 'integer',
-    ];
 
     public function category(): BelongsTo
     {

@@ -11,12 +11,6 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'familias';
-    protected $primaryKey = 'codfamilia';
-
-
-    protected $casts = [
-        'codfamilia' => 'integer',
-    ];
 
     public function products(): HasMany
     {
