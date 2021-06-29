@@ -20,9 +20,11 @@ class ProductService extends FacturascriptService
 
         foreach ($categories as $category)
         {
-            $products = Product::with(['category'])->where('codfamilia', $category->codfamilia)
+           
+            $products = Product::where('codfamilia','=', $category->codfamilia)
                 ->where('stockfis','>',0)
                 ->get();
+
 
             $_category = [
                 'name' => $category->descripcion,
@@ -30,6 +32,7 @@ class ProductService extends FacturascriptService
             ];
             array_push($productsCategories, $_category);
         }
+        
         return $productsCategories;
     }
 

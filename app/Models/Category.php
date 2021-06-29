@@ -13,6 +13,11 @@ class Category extends Model
     protected $table = 'familias';
     protected $primaryKey = 'codfamilia';
 
+
+    protected $casts = [
+        'codfamilia' => 'integer',
+    ];
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class,'idproducto');
