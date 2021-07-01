@@ -28,8 +28,40 @@ class ClientController extends Controller
     }
     public function store(Request $request): JsonResponse
     {
-        //1. Create a user in Facturascript
+
+        //1. Create user in supabase
+        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/signUp';
+       
+        $response = Http::post($supabaseApiUrl,$request->user);
+        $userSupabase  = json_decode($response->getBody()->getContents());
+        
+        if(!$userSupabase->success)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => $userSupabase->data->error->message,
+                'data' => null
+            ], 401);
+
+        }
+        //2. Create a user in Facturascript
         $response = $this->clientService->create($request);
+        
+        if(!$response->success)
+        {
+            $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL'). '/user';
+
+            $deleteCreatedUserInSupabase = Http::delete($supabaseApiUrl, [
+                'uid' =>  $userSupabase->data->user->id
+            ]);
+            //$decoded = json_decode($deleteCreatedUserInSupabase->getBody()->getContents());
+
+            return response()->json([
+                'success' => $response->success,
+                'message' => $response->message,
+                'data' => $response->data
+             ], 400);
+        }
 
         if(!$response->success){
             return response()->json([
@@ -39,11 +71,7 @@ class ClientController extends Controller
             ]);
         }
 
-        //2. Create user in supabase
-        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/signup';
-
-        $userSupabase = Http::post($supabaseApiUrl,$request->user);
-
+        
         $responseDecoded  = json_decode($userSupabase->getBody()->getContents());
 
         //3. Update the client info with de supabase info

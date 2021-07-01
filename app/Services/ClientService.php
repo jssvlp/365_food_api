@@ -15,7 +15,7 @@ class ClientService extends FacturascriptService
     {
         $clientInfo = $request->except('user');
         $clientInfo['email'] = $request->user['email'];
-        $clientInfo['cifnif'] = trim('');
+        $clientInfo['cifnif'] = '';
 
         $client = $this->post($clientInfo,'clientes');
 

@@ -18,7 +18,11 @@ class AuthController extends Controller
         $userInfo  = json_decode($response->getBody()->getContents());
         
         if(!$userInfo->success){
-            return response()->json($userInfo, 403);
+            return response()->json([
+                'success' => false,
+                'message' => $userInfo->data->error->message,
+                'data' => null
+            ], 401);
         }
         //2. get client info by supabase user id
 
