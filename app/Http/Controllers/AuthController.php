@@ -16,6 +16,10 @@ class AuthController extends Controller
         $response = Http::post($supabaseApiUrl,$request->all());
 
         $userInfo  = json_decode($response->getBody()->getContents());
+        
+        if(!$userInfo->success){
+            return response()->json($userInfo, 403);
+        }
         //2. get client info by supabase user id
 
 

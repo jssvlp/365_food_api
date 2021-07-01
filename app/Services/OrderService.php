@@ -31,7 +31,7 @@ class OrderService extends FacturascriptService
         $orderParams['pagada'] = 0;
         $orderParams['codserie'] = 'A';
 
-
+//direccionorden
         $order = $this->post($orderParams, 'facturaclientes');
 
         if(!isset($order->ok) && isset($order->error)){
