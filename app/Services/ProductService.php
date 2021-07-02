@@ -21,9 +21,8 @@ class ProductService extends FacturascriptService
         foreach ($categories as $category)
         {
             $products = Product::where('codfamilia','=', $category->codfamilia)
-                ->where('stockfis','>',0)
-                ->get();
-
+                        ->where('stockfis','>',0)->get();
+            
             $_category = [
                 'name' => $category->descripcion,
                 'products' => $products

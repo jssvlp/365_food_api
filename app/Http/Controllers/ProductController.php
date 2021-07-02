@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function all(): \Illuminate\Http\JsonResponse
     {
         $products = (new ProductService())->productOrderByCategories();
-
+        
         return response()->json([
             'success' => true,
             'categories' => $products

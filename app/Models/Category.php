@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'familias';
-    protected $primaryKey = 'codfamilia';
+    //protected $primaryKey = 'codfamilia';
 
     public function products(): HasMany
     {
