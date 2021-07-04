@@ -16,7 +16,7 @@ class AddressController
         return response()->json([
             'success' => $address->success,
             'message' => $address->message,
-            'data' => $address->data
+            'address' => $address->data
         ]);
     }
 
