@@ -16,7 +16,7 @@ class AddressController
         return response()->json([
             'success' => $address->success,
             'message' => $address->message,
-            'address' => $address->data
+            'data' => $address->data
         ]);
     }
 
@@ -25,7 +25,7 @@ class AddressController
         return response()->json([
             'success' => true,
             'message' => 'Consulta realizada correctamente!',
-            'data' => (new AddressService())->byClient($codcliente)
+            'addresses' => (new AddressService())->byClient($codcliente)
         ]);
     }
 }
