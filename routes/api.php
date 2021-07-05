@@ -37,6 +37,7 @@ Route::get('/clients',[Controllers\ClientController::class,'all']);
 
 //Client address
 Route::post('/address', [Controllers\AddressController::class, 'store']);
+Route::post('/address/create', [Controllers\AddressController::class, 'create']);
 Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,'get']);
 
 //Auth

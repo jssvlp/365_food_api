@@ -12,7 +12,12 @@ class AddressService extends FacturascriptService
 {
     public function create(Request $request): FacturascriptResponse
     {
-        $created = $this->post($request->all(), 'contactos');
+        $data = $request->all();
+        $data['codpais'] = 'DOP';
+        $data['provincia'] = 'Santo Domingo';
+        $data['cifnif'] = "";
+
+        $created = $this->post($data, 'contactos');
 
         if(!isset($created->ok) && isset($created->error)){
             return new FacturascriptResponse(
@@ -23,7 +28,7 @@ class AddressService extends FacturascriptService
 
         return new FacturascriptResponse(
             true,
-            'Consulta ejecutada correctamente',
+            'Dirección almacenada correctamente!',
             (array)$created
         );
     }

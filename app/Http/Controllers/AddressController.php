@@ -16,8 +16,13 @@ class AddressController
         return response()->json([
             'success' => $address->success,
             'message' => $address->message,
-            'data' => $address->data
+            'data' => $address->data['data']
         ]);
+    }
+
+    public function create(Request $request)
+    {
+        dd($request->all());
     }
 
     public function get($codcliente): \Illuminate\Http\JsonResponse
