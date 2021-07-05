@@ -20,10 +20,6 @@ class AddressController
         ]);
     }
 
-    public function create(Request $request)
-    {
-        dd($request->all());
-    }
 
     public function get($codcliente): \Illuminate\Http\JsonResponse
     {

@@ -24,7 +24,7 @@ class OrderController extends Controller
                 'quantity' => $item['cantidad']
             ];
         });
-
+      
         $client = (new ClientService())->getClient($order->data['codcliente']);
 
         $orderBody = [
