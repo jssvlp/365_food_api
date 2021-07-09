@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tracking;
 use App\Services\ClientService;
 use App\Services\FacturascriptService;
 use App\Services\OrderService;
@@ -13,9 +14,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $order = (new OrderService())->createOrder($request);
-
-        $supabaseApiUrl = env('SUPABASE_API_CLIENT_URL') .'/orders';
-
+       
         $items = collect($request->items);
 
         $items = $items->map( function ($item){
@@ -24,23 +23,20 @@ class OrderController extends Controller
                 'quantity' => $item['cantidad']
             ];
         });
-      
+        
         $client = (new ClientService())->getClient($order->data['codcliente']);
 
-        $orderBody = [
+        $trackingBody = [
             "orderNumber"=> $order->data['codigo'],
             "status"=> "Pendiente",
-            "client"=> $client->data['nombre'],
+            "clientCode" => $order->data['codcliente'],
+            "clientName"=> $client->data['nombre'],
             "phone"=> $client->data['telefono1'],
             "address"=> $request->direccionorden,
             "orderDetail"=> $items
         ];
 
-
-        $supabaseApiResponse = Http::post($supabaseApiUrl,$orderBody);
-        $decoded = json_decode($supabaseApiResponse->getBody()->getContents());
-
-        //Create tracking in Supabase
+        Tracking::create($trackingBody);
 
         return response()->json([
             'success' => $order->success,

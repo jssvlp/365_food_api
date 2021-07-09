@@ -15,6 +15,18 @@ use App\Http\Controllers;
 |
 */
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'v1/auth'
+
+], function ($router) {
+    Route::post('login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login'])->name('login');
+    Route::post('logout', [\App\Http\Controllers\Api\V1\AuthController::class, 'logout'])->name('logout');
+    Route::post('refresh', [\App\Http\Controllers\Api\V1\AuthController::class, 'refresh'])->name('refresh');
+    Route::post('me', [\App\Http\Controllers\Api\V1\AuthController::class, 'me'])->name('me');
+});
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -29,6 +41,8 @@ Route::get('/products/category/{codfamilia}',[Controllers\ProductController::cla
 
 //Orders
 Route::post('/orders',[Controllers\OrderController::class,'store']);
+//Orders Tracking
+Route::put('/orders/{orderNumber}/tracking', [Controllers\TrackingController::class,'changeStatus']);
 
 //Clients
 Route::post('/clients',[Controllers\ClientController::class,'store']);
@@ -43,6 +57,9 @@ Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,
 //Auth
 Route::post('/auth/login', [Controllers\AuthController::class, 'login']);
 Route::post('/auth/signOut', [Controllers\AuthController::class, 'signOut']);
+
+
+
 
 
 
