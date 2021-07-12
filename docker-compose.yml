@@ -10,6 +10,8 @@ services:
     working_dir: /var/www/
     volumes:
       - ./:/var/www
+    ports:
+      - 6001:6001
     networks:
       - 365_food_api
 
