@@ -29,7 +29,6 @@ Route::group([
 
     Route::post('signup',[Controllers\Api\V1\AuthController::class, 'signup']);
     Route::post('signout', [Controllers\Api\V1\AuthController::class, 'logout']);
-
 });
 
 
@@ -60,9 +59,6 @@ Route::post('/address', [Controllers\AddressController::class, 'store']);
 Route::post('/address/create', [Controllers\AddressController::class, 'create']);
 Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,'get']);
 
-//Auth
-Route::post('/auth/login', [Controllers\AuthController::class, 'login']);
-Route::post('/auth/signOut', [Controllers\AuthController::class, 'signOut']);
 
 
 
