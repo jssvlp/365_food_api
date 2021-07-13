@@ -9,6 +9,9 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+
+    private $clientService;
+
     /**
      * Create a new AuthController instance.
      *
@@ -17,6 +20,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login','signup']]);
+        $this->clientService = new ClientService();
     }
 
     /**
@@ -30,7 +34,7 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $client = (new ClientService())->getClientByEmail($credentials['email']);
+        $client = $this->clientService->getClientByEmail($credentials['email']);
         return $this->respondWithTokenAndClient($token, $client);
     }
 
