@@ -46,9 +46,10 @@ Route::get('/products/category/{codfamilia}',[Controllers\ProductController::cla
 
 //Orders
 Route::post('/orders',[Controllers\OrderController::class,'store']);
+Route::get('/orders/pending', [Controllers\OrderController::class,'pending']);
 //Orders Tracking
-Route::put('/orders/{orderNumber}/tracking', [Controllers\TrackingController::class,'changeStatus']);
-
+Route::put('/orders/{orderNumber}/tracking', [Controllers\OrderController::class,'updateStatus']);
+Route::put('/orders/{orderNumber}/complete', [Controllers\OrderController::class, 'complete']);
 //Clients
 Route::post('/clients',[Controllers\ClientController::class,'store']);
 Route::get('/clients/{codcliente}',[Controllers\ClientController::class,'get']);

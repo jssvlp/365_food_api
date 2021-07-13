@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrackingsTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTrackingsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql2')->create('trackings', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('orderNumber');
             $table->enum('status',['Pendiente','En proceso', 'Listo', 'En camino','Entregado'])->default('Pendiente');
@@ -23,6 +23,7 @@ class CreateTrackingsTable extends Migration
             $table->string('address');
             $table->json('orderDetail');
             $table->unsignedBigInteger('delivery_man_id')->nullable();
+            $table->boolean('delivered')->default(false);
             $table->timestamp('deliveredAt')->nullable();
             $table->timestamps();
 
@@ -37,6 +38,6 @@ class CreateTrackingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trackings');
+        Schema::dropIfExists('orders');
     }
 }

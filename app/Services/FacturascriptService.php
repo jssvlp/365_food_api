@@ -39,7 +39,7 @@ class FacturascriptService
     {
         $fsApiUrl = env('FS_API_URL') .'/'.$resource;
         $apiKey = env('FS_API_KEY');
-
+       
         $response = Http::withHeaders([
             'Token' => $apiKey,
         ])->asForm()->post($fsApiUrl, $data);
