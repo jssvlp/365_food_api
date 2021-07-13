@@ -28,6 +28,7 @@ Route::group([
     Route::post('me', [\App\Http\Controllers\Api\V1\AuthController::class, 'me'])->name('me');
 
     Route::post('signup',[Controllers\Api\V1\AuthController::class, 'signup']);
+    Route::post('signout', [Controllers\Api\V1\AuthController::class, 'logout']);
 
 });
 
