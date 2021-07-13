@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Services\ClientService;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -14,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','signup']]);
     }
 
     /**
@@ -29,7 +31,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $client = (new ClientService())->getClientByEmail($credentials['email']);
-        return $this->respondWithTokenAndUser($token, $client);
+        return $this->respondWithTokenAndClient($token, $client);
     }
 
     /**
@@ -64,6 +66,40 @@ class AuthController extends Controller
         return $this->respondWithToken(auth()->refresh());
     }
 
+    public function signup(Request $request)
+    {
+         //1. validate if user exist in users table
+         $request->validate([
+            'user.email' => 'required|unique:mysql2.users,email',
+            'user.password' => 'required'
+        ],[
+            'user.email.required' => 'El email es obligatorio',
+            'user.email.unique' => 'Este correo ya se encuentra registrado',
+            'user.password.required' => 'La contraseña es obligatoria'
+        ]);
+
+        //2. Create a user in Facturascript
+        $response = $this->clientService->create($request);
+
+        //3. Create user here
+        $user = User::create([
+            'name' => $request->nombre,
+            'email' => $request->user['email'],
+            'password' => bcrypt($request->user['password'])
+        ]);
+
+        $credentials = [
+            'email' => $request->user['email'],
+            'password' => $request->user['password']
+        ];
+       
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $client = (new ClientService())->getClientByEmail($credentials['email']);
+        return $this->respondWithTokenAndClient($token, $client);
+    }
+
     /**
      * Get the token array structure.
      *
@@ -81,7 +117,7 @@ class AuthController extends Controller
     }
 
 
-    protected function respondWithTokenAndUser($token, $client)
+    protected function respondWithTokenAndClient($token, $client)
     {
         return response()->json([
             'access_token' => $token,

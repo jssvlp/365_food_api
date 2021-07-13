@@ -14,7 +14,9 @@ use App\Http\Controllers;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('test', function(){
+    dd('asdasd');
+});
 Route::group([
     'middleware' => 'api',
     'prefix' => 'v1/auth'
@@ -24,6 +26,9 @@ Route::group([
     Route::post('logout', [\App\Http\Controllers\Api\V1\AuthController::class, 'logout'])->name('logout');
     Route::post('refresh', [\App\Http\Controllers\Api\V1\AuthController::class, 'refresh'])->name('refresh');
     Route::post('me', [\App\Http\Controllers\Api\V1\AuthController::class, 'me'])->name('me');
+
+    Route::post('signup',[Controllers\Api\V1\AuthController::class, 'signup']);
+
 });
 
 
