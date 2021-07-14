@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Events\OrderCreated;
-use App\Models\Tracking;
 use App\Services\ClientService;
-use App\Services\FacturascriptService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
 use App\Events\OrderTrackingUpdated;
 use App\Models\Order;
 
@@ -52,7 +50,7 @@ class OrderController extends Controller
 
     public function pending()
     {
-        $orders = Tracking::where('delivered', false)->get();
+        $orders = Order::where('delivered', false)->get();
         return response()->json([
             'success' => true,
             'orders' => $orders
@@ -62,7 +60,7 @@ class OrderController extends Controller
 
     public function updateStatus($orderNumber, Request $request)
     {
-        $orderTracking = Tracking::where('orderNumber', $orderNumber)->first();
+        $orderTracking = Order::where('orderNumber', $orderNumber)->first();
 
         if(!$orderTracking)
         {

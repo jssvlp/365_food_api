@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Order;
-use App\Models\Tracking;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,21 +14,21 @@ use Illuminate\Queue\SerializesModels;
 class OrderTrackingUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    private $tracking;
+    private $order;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Tracking $tracking)
+    public function __construct(Order $order)
     {
-        $this->tracking = $tracking;
+        $this->order = $order;
     }
 
     public function broadcastWith()
     {
         return [
-            'tracking' => $this->tracking
+            'order' => $this->order
         ];
     }
 
@@ -40,6 +39,6 @@ class OrderTrackingUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('tracking.'.$this->tracking->orderNumber);
+        return new Channel('tracking.'.$this->order->orderNumber);
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 
 use Illuminate\Http\Request;
 use App\Services\AddressService;
+use App\Http\Controllers\Controller;
 
-class AddressController
+class AddressController extends Controller
 {
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {

@@ -14,9 +14,6 @@ use App\Http\Controllers;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('test', function(){
-    dd('asdasd');
-});
 Route::group([
     'middleware' => 'api',
     'prefix' => 'v1/auth'
@@ -31,34 +28,51 @@ Route::group([
     Route::post('signout', [Controllers\Api\V1\AuthController::class, 'logout']);
 });
 
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'v1/'
+
+], function ($router) {
+    //Categories
+    Route::get('/categories',[Controllers\Api\V1\CategordevelopmentyController::class,'all']);
+
+    //Products
+    Route::get('/products/fs',[Controllers\Api\V1\ProductController::class,'getProductsFromApi']);
+    Route::get('/products',[Controllers\Api\V1\ProductController::class,'all']);
+    Route::get('/products/{idproducto}',[Controllers\Api\V1\ProductController::class, 'get']);
+    Route::get('/products/category/{codfamilia}',[Controllers\Api\V1\ProductController::class,'getProductsByFamily']);
+
+    //Orders
+    Route::post('/orders',[Controllers\Api\V1\OrderController::class,'store']);
+    Route::get('/orders/pending', [Controllers\Api\V1\OrderController::class,'pending']);
+    
+    //Orders Tracking
+    Route::put('/orders/{orderNumber}/tracking', [Controllers\Api\V1\OrderController::class,'updateStatus']);
+    Route::put('/orders/{orderNumber}/complete', [Controllers\Api\V1\OrderController::class, 'complete']);
+    
+    //Clients
+    Route::post('/clients',[Controllers\Api\V1\ClientController::class,'store']);
+    Route::get('/clients/{codcliente}',[Controllers\Api\V1\ClientController::class,'get']);
+    Route::get('/clients',[Controllers\Api\V1\ClientController::class,'all']);
+
+    //Client address
+    Route::post('/address', [Controllers\Api\V1\AddressController::class, 'store']);
+    Route::post('/address/create', [Controllers\Api\V1\AddressController::class, 'create']);
+    Route::get('/address/client/{codcliente}',[Controllers\Api\V1\AddressController::class,'get']);
+
+});
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/categories',[Controllers\CategoryController::class,'all']);
 
-//Products
-Route::get('/products/fs',[Controllers\ProductController::class,'getProductsFromApi']);
-Route::get('/products',[Controllers\ProductController::class,'all']);
-Route::get('/products/{idproducto}',[Controllers\ProductController::class, 'get']);
-Route::get('/products/category/{codfamilia}',[Controllers\ProductController::class,'getProductsByFamily']);
 
-//Orders
-Route::post('/orders',[Controllers\OrderController::class,'store']);
-Route::get('/orders/pending', [Controllers\OrderController::class,'pending']);
-//Orders Tracking
-Route::put('/orders/{orderNumber}/tracking', [Controllers\OrderController::class,'updateStatus']);
-Route::put('/orders/{orderNumber}/complete', [Controllers\OrderController::class, 'complete']);
-//Clients
-Route::post('/clients',[Controllers\ClientController::class,'store']);
-Route::get('/clients/{codcliente}',[Controllers\ClientController::class,'get']);
-Route::get('/clients',[Controllers\ClientController::class,'all']);
 
-//Client address
-Route::post('/address', [Controllers\AddressController::class, 'store']);
-Route::post('/address/create', [Controllers\AddressController::class, 'create']);
-Route::get('/address/client/{codcliente}',[Controllers\AddressController::class,'get']);
+
+
+
 
 
 
