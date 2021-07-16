@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','signup']]);
+        $this->middleware('auth:api', ['except' => ['login','signup','loginFacturasCript']]);
         $this->clientService = new ClientService();
     }
 
@@ -33,6 +33,16 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $client = $this->clientService->getClientByEmail($credentials['email']);
+        return $this->respondWithTokenAndClient($token, $client);
+    }
+
+    public function loginFacturasCript()
+    {
+        $credentials = request(['email', 'password']);
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized', 'data' => null], 200);
         }
         $client = $this->clientService->getClientByEmail($credentials['email']);
         return $this->respondWithTokenAndClient($token, $client);

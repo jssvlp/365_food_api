@@ -22,7 +22,8 @@ class CreateOrdersTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->json('orderDetail');
-            $table->unsignedBigInteger('delivery_man_id')->nullable();
+            $table->enum('orderType',['Delivery','Takeout']);
+            $table->unsignedBigInteger('deliveryManId')->nullable();
             $table->boolean('delivered')->default(false);
             $table->timestamp('deliveredAt')->nullable();
             $table->timestamps();
