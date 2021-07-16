@@ -8,6 +8,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\OrderTrackingUpdated;
+use App\Events\OrderTrackingUpdatedForKitchen;
 use App\Models\Order;
 
 class OrderController extends Controller
@@ -76,6 +77,8 @@ class OrderController extends Controller
 
         //Emit event
         broadcast(new OrderTrackingUpdated($orderTracking));
+        broadcast(new OrderTrackingUpdatedForKitchen($orderTracking));
+        
 
         return response()->json([
             'success' => true,
