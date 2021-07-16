@@ -38,7 +38,7 @@ Route::group([
 
 ], function ($router) {
     //Categories
-    Route::get('/categories',[Controllers\Api\V1\CategordevelopmentyController::class,'all']);
+    Route::get('/categories',[Controllers\Api\V1\CategoryController::class,'all']);
 
     //Products
     Route::get('/products/fs',[Controllers\Api\V1\ProductController::class,'getProductsFromApi']);
