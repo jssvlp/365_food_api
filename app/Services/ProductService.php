@@ -22,11 +22,15 @@ class ProductService extends FacturascriptService
         {
             $products = Product::where('codfamilia','=', $category->codfamilia)->get();
             
-            $_category = [
-                'name' => $category->descripcion,
-                'products' => $products
-            ];
-            array_push($productsCategories, $_category);
+            if($products)
+            {
+                $_category = [
+                    'name' => $category->descripcion,
+                    'products' => $products
+                ];
+                array_push($productsCategories, $_category);
+            }
+            
         }
        
         return $productsCategories;

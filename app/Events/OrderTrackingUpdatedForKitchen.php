@@ -14,21 +14,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class OrderTrackingUpdatedForKitchen implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    private $order;
+    private $orders;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct(array $orders)
     {
-        $this->order = $order;
+        $this->orders = $orders;
     }
 
     public function broadcastWith()
     {
         return [
-            'order' => $this->order
+            'orders' => $this->orders
         ];
     }
 

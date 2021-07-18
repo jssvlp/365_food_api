@@ -75,9 +75,10 @@ class OrderController extends Controller
 
         $orderTracking->save();
 
+        $pendingOrders = Order::where('delivered', false)->get();
         //Emit event
         broadcast(new OrderTrackingUpdated($orderTracking));
-        broadcast(new OrderTrackingUpdatedForKitchen($orderTracking));
+        broadcast(new OrderTrackingUpdatedForKitchen($pendingOrders));
         
 
         return response()->json([
