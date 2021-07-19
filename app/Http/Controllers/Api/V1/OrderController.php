@@ -45,7 +45,10 @@ class OrderController extends Controller
         return response()->json([
             'success' => $order->success,
             'message' => $order->message,
-            'data' => $order->data
+            'data' => [
+                'facturascript' => $order->data,
+                'realtime' => _$order
+            
         ]);
     }
 
