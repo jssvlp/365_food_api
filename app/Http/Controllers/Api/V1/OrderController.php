@@ -48,6 +48,7 @@ class OrderController extends Controller
             'data' => [
                 'facturascript' => $order->data,
                 'realtime' => _$order
+            ]
             
         ]);
     }
