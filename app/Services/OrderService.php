@@ -48,10 +48,12 @@ class OrderService extends FacturascriptService
                 $itemInserted = $this->post($item, 'lineafacturaclientes');
 
                 $stock = $productService->getStock($item['idproducto']);
-                dd($stock);
-
-                $newStock = (int) $stock->cantidad - (int) $item['stock'];
-                $productService->updateStock($stock->idstock, $newStock);
+                
+                if($stock)
+                {
+                    $newStock = (int) $stock->cantidad - (int) $item['stock'];
+                    $productService->updateStock($stock->idstock, $newStock);
+                }
             }
             $receipt = $this->createReceipt($order);
 
