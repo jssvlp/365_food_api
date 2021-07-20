@@ -37,4 +37,9 @@ class AddressService extends FacturascriptService
     {
         return  Address::where('codcliente', $codcliente)->get();
     }
+
+    public function getAddress($contactoId)
+    {
+        return Address::where('idcontacto', $contactoId)->first();
+    }
 }

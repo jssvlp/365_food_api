@@ -10,5 +10,11 @@ class Address extends  Model
 {
     protected $connection = 'mysql';
     protected $table = 'contactos';
+
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'addressId');
+    }
 }
 

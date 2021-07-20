@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Events\OrderTrackingUpdated;
 use App\Events\OrderTrackingUpdatedForKitchen;
 use App\Models\Order;
+use App\Services\AddressService;
 
 class OrderController extends Controller
 {
@@ -22,7 +23,8 @@ class OrderController extends Controller
         $items = $items->map( function ($item){
             return [
                 'name' => $item['descripcion'],
-                'quantity' => $item['cantidad']
+                'quantity' => $item['cantidad'],
+                'price' => $item['precio']
             ];
         });
         
@@ -30,12 +32,15 @@ class OrderController extends Controller
 
         $orderBody = [
             "orderNumber"=> $order->data['codigo'],
-            "status"=> "Pendiente",
             "clientCode" => $order->data['codcliente'],
             "clientName"=> $client->data['nombre'],
             "phone"=> $client->data['telefono1'],
             "address"=> $request->direccionorden,
-            "orderDetail"=> $items
+            "addressId" => $request->direccionid,
+            "orderDetail"=> $items,
+            "orderType" => $request->tipoorden,
+            "paymentMethod" => $request->metodopago,
+            "status" => 'En espera de validación'
         ];
 
         $_order = Order::create($orderBody);
@@ -44,8 +49,13 @@ class OrderController extends Controller
 
         return response()->json([
             'success' => $order->success,
-            'message' => $order->message,
-            'data' => $order->data
+            'order' => [
+                'products' => $items,
+                'address' => (new AddressService())->getAddress($request->direccionid),
+                'paymentMethod' => $_order->paymentMethod,
+                'status' => $_order->status
+            ],
+            
         ]);
     }
 

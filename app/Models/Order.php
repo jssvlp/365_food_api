@@ -11,10 +11,15 @@ class Order extends Model
     use HasFactory;
     protected $connection = 'mysql2';
 
-    protected $fillable = ['orderNumber', 'status','clientName','clientCode','phone','deliveryManId','address','orderDetail','orderType'];
+    protected $fillable = ['orderNumber', 'status','clientName','clientCode','phone','deliveryManId','address','orderDetail','orderType','paymentMethod','addressId'];
 
     public function deliveryMan()
     {
         return $this->belongsTo(DeliveryMan::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }
