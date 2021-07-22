@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('address');
             $table->json('orderDetail');
             $table->enum('orderType',['Delivery','Takeout']);
-            $table->enum('paymentMethod', ['AL CONTADO', 'TRANSFERENCIAS']);
+            $table->enum('paymentMethod', ['TRANS', 'CONT']);
             $table->unsignedBigInteger('deliveryManId')->nullable();
             $table->unsignedBigInteger('addressId')->nullable();
             $table->boolean('delivered')->default(false);
