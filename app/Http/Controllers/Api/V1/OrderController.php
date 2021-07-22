@@ -39,7 +39,7 @@ class OrderController extends Controller
             "addressId" => $request->direccionid,
             "orderDetail"=> $items,
             "orderType" => $request->tipoorden,
-            "paymentMethod" => $request->metodopago,
+            "paymentMethod" => $request->codpago,
             "status" => 'En espera de validación'
         ];
 
