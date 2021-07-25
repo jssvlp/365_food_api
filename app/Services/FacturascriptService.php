@@ -65,6 +65,18 @@ class FacturascriptService
 
     }
 
+    protected function delete(int $resourceId, string $resource)
+    {
+        $fsApiUrl = env('FS_API_URL') .'/'.$resource.'/'.$resourceId;
+        $apiKey = env('FS_API_KEY');
+
+        $response = Http::withHeaders([
+            'Token' => $apiKey,
+        ])->delete($fsApiUrl);
+
+        return json_decode($response->getBody()->getContents());
+    }
+
 
 
 

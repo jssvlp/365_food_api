@@ -30,4 +30,16 @@ class AddressController extends Controller
             'addresses' => (new AddressService())->byClient($codcliente)
         ]);
     }
+
+    public function destroy($id)
+    {
+        $deleted = (new AddressService())->destroy($id);
+
+        if($deleted->message === 'Record not found')
+        {
+            return response()->json(['success' => false, 'message' => 'Dirección no encontrada.', 'data' => null], 404);
+        }
+        return response()->json($deleted);
+
+    }
 }

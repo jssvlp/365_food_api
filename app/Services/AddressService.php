@@ -42,4 +42,22 @@ class AddressService extends FacturascriptService
     {
         return Address::where('idcontacto', $contactoId)->first();
     }
+
+    public function destroy($id)
+    {
+        $deleted =  $this->delete($id, 'contactos');
+
+        if(!isset($deleted->ok) && isset($deleted->error)){
+            return new FacturascriptResponse(
+                false,
+                $deleted->error
+            );
+        }
+
+        return new FacturascriptResponse(
+            true,
+            'Dirección eliminada correctamente!',
+            (array)$deleted->data
+        );
+    }
 }

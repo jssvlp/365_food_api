@@ -14,6 +14,12 @@ use App\Services\AddressService;
 
 class OrderController extends Controller
 {
+
+    public function history($client)
+    {
+        //return all orders from a client with the same structure on store order                                                                                                                                                            
+    }
+
     public function store(Request $request)
     {
         $order = (new OrderService())->createOrder($request);
@@ -22,7 +28,7 @@ class OrderController extends Controller
 
         $items = $items->map( function ($item){
             return [
-                'name' => $item['descripcion'],
+                'name' => $item['referencia'],
                 'quantity' => $item['cantidad'],
                 'price' => $item['precio']
             ];

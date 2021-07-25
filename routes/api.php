@@ -61,6 +61,8 @@ Route::group([
 
     //Client address
     Route::post('/address', [Controllers\Api\V1\AddressController::class, 'store']);
+    Route::delete('/address/{id}', [Controllers\Api\V1\AddressController::class, 'destroy']);
+    Route::put('/address/{id}', [Controllers\Api\V1\AddressController::class, 'update']);
     Route::post('/address/create', [Controllers\Api\V1\AddressController::class, 'create']);
     Route::get('/address/client/{codcliente}',[Controllers\Api\V1\AddressController::class,'get']);
 
