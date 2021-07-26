@@ -49,6 +49,7 @@ Route::group([
     //Orders
     Route::post('/orders',[Controllers\Api\V1\OrderController::class,'store']);
     Route::get('/orders/pending', [Controllers\Api\V1\OrderController::class,'pending']);
+    Route::get('orders/client/{order}/history', [Controllers\Api\V1\OrderController::class, 'history']);
     
     //Orders Tracking
     Route::put('/orders/{orderNumber}/tracking', [Controllers\Api\V1\OrderController::class,'updateStatus']);

@@ -17,7 +17,11 @@ class OrderController extends Controller
 
     public function history($client)
     {
-        //return all orders from a client with the same structure on store order                                                                                                                                                            
+        $clientOrders = Order::where('clientCode', $client)
+                            ->orderBy('created_at','DESC')
+                            ->get();   
+
+        return response()->json(['success' => true, 'data' => $clientOrders]);                                                                                                                                                        
     }
 
     public function store(Request $request)
@@ -28,6 +32,7 @@ class OrderController extends Controller
 
         $items = $items->map( function ($item){
             return [
+                'id' => $item['idproducto'],
                 'name' => $item['referencia'],
                 'quantity' => $item['cantidad'],
                 'price' => $item['precio']
