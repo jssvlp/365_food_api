@@ -30,6 +30,15 @@ Route::group([
     Route::post('');
     Route::post('signup',[Controllers\Api\V1\AuthController::class, 'signup']);
     Route::post('signout', [Controllers\Api\V1\AuthController::class, 'logout']);
+
+    
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'v1'
+], function(){
+    Route::get('/products/noauth',[Controllers\Api\V1\ProductController::class,'all']);
 });
 
 Route::group([
