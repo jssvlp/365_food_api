@@ -64,7 +64,8 @@ class OrderController extends Controller
                 'products' => $items,
                 'address' => (new AddressService())->getAddress($request->direccionid),
                 'paymentMethod' => $_order->paymentMethod,
-                'status' => $_order->status
+                'status' => $_order->status,
+                'orderNumber' => $_order->orderNumber
             ],
             
         ]);
