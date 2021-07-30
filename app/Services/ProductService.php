@@ -15,7 +15,8 @@ class ProductService extends FacturascriptService
 {
     public function productOrderByCategories(): array
     {
-        $categories = Category::all();
+        $categories = Category::whereNotNull('orden')
+                                ->orderBy('orden','ASC');
         $productsCategories = [];
 
         foreach ($categories as $category)
