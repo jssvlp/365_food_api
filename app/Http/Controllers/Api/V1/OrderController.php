@@ -24,6 +24,13 @@ class OrderController extends Controller
         return response()->json(['success' => true, 'data' => $clientOrders]);                                                                                                                                                        
     }
 
+    public function orderDetailHistory($orderNumber)
+    {
+        $order = Order::where('orderNumber', $orderNumber)->first();
+
+        return response()->json(['succes' => true, 'data' => $order]);
+    }
+
     public function store(Request $request)
     {
         $order = (new OrderService())->createOrder($request);

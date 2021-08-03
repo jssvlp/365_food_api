@@ -2,8 +2,8 @@
 
 
 namespace App\Services;
-
-
+//sudo certbot certonly --standalone --preferred-challenges http -d api-gop.gotdns.ch 
+http://apigop.ddns.net/
 use App\Models\Category;
 use App\Models\Product;
 
