@@ -90,9 +90,14 @@ class OrderController extends Controller
 
     public function updateStatus($orderNumber, Request $request)
     {
-        $orderTracking = Order::where('orderNumber', $orderNumber)->first();
+        $order = Order::where('orderNumber', $orderNumber)->first();
 
-        if(!$orderTracking)
+        if($order->delivered)
+        {
+            return response()->json(['status' => false, 'message' => 'Esta orden ya se encuentra finalizada, no es posible actualizar'],422);
+        }
+
+        if(!$order)
         {
             return response()->json([
                 'success' => false,
@@ -100,13 +105,22 @@ class OrderController extends Controller
             ]);
         }
 
-        $orderTracking->status = $request->status;
+        if($request->status === 'Entregada')
+        {
+            //TODO: validate if user is delivery
+            $order->status = 'Entregada';
+            $order->delivered = true;
 
-        $orderTracking->save();
+            return response()->json(['success' => true, 'message' => 'Orden finalizada correctamente!']);
+        }
+
+        $order->status = $request->status;
+
+        $order->save();
 
         $pendingOrders =  Order::where('delivered', false)->get()->toArray();
         //Emit event
-        broadcast(new OrderTrackingUpdated($orderTracking));
+        broadcast(new OrderTrackingUpdated($order));
         broadcast(new OrderTrackingUpdatedForKitchen($pendingOrders));
         
 

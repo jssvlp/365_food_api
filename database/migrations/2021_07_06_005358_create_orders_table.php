@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::connection('mysql2')->create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('orderNumber');
-            $table->enum('status',['En espera de validación','Preparando','Orden lista', 'En camino','Finalizada','En espera de retiro'])->default('En espera de validación');
+            $table->enum('status',['En espera de validación','Preparando','Orden lista', 'En camino','Entregada','En espera de retiro'])->default('En espera de validación');
             $table->string('clientName');
             $table->string('clientCode');
             $table->string('phone');
