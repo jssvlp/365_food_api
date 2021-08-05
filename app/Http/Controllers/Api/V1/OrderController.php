@@ -92,17 +92,17 @@ class OrderController extends Controller
     {
         $order = Order::where('orderNumber', $orderNumber)->first();
 
-        if($order->delivered)
-        {
-            return response()->json(['status' => false, 'message' => 'Esta orden ya se encuentra finalizada, no es posible actualizar'],422);
-        }
-
         if(!$order)
         {
             return response()->json([
                 'success' => false,
                 'message' => 'No existe una orden con este número'
             ]);
+        }
+
+        if($order->delivered)
+        {
+            return response()->json(['status' => false, 'message' => 'Esta orden ya se encuentra finalizada, no es posible actualizar'],422);
         }
 
         if($request->status === 'Entregada')
