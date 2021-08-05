@@ -110,6 +110,7 @@ class OrderController extends Controller
             //TODO: validate if user is delivery
             $order->status = 'Entregada';
             $order->delivered = true;
+            $order->save();
 
             return response()->json(['success' => true, 'message' => 'Orden finalizada correctamente!']);
         }
