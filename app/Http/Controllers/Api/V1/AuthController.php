@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Actions\UserForgotPassword;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','signup','loginFacturasCript']]);
+        $this->middleware('auth:api', ['except' => ['login','signup','loginFacturasCript','forgotPassword']]);
         $this->clientService = new ClientService();
     }
 
@@ -78,6 +79,34 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'newPassword' => 'required|min:8'
+        ]);
+       
+        $user = User::find(request()->user()->id);
+        $user->password = bcrypt($request->newPassword);
+
+        $user->save();
+
+        return response()->json(['success' => true, 'message' => 'Contraseña modificada correctamente!']);
+    }
+
+    public function forgotPassword(Request $request, UserForgotPassword $action)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $action->handle($user);
+
+         return response()->json(['success' => true, 'message' => 'Correo de recuperación enviado correctamente']);
+
     }
 
     public function signup(Request $request)

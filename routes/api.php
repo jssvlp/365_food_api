@@ -30,8 +30,9 @@ Route::group([
     Route::post('');
     Route::post('signup',[Controllers\Api\V1\AuthController::class, 'signup']);
     Route::post('signout', [Controllers\Api\V1\AuthController::class, 'logout']);
-
-    
+    Route::post('changePassword',[Controllers\Api\V1\AuthController::class, 'changePassword']);
+    Route::post('forgotPassword',[Controllers\Api\V1\AuthController::class, 'forgotPassword']);
+    //forgotPassword
 });
 
 Route::group([
@@ -68,6 +69,7 @@ Route::group([
     //Clients
     Route::post('/clients',[Controllers\Api\V1\ClientController::class,'store']);
     Route::get('/clients/{codcliente}',[Controllers\Api\V1\ClientController::class,'get']);
+    Route::put('/clients/{codcliente}',[Controllers\Api\V1\ClientController::class,'update']);
     Route::get('/clients',[Controllers\Api\V1\ClientController::class,'all']);
 
     //Client address

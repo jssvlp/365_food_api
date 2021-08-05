@@ -33,6 +33,24 @@ class ClientService extends FacturascriptService
 
     }
 
+    public function update($id, Request $request)
+    {
+        $updated = $this->put($id, $request->all(),'clientes');
+
+        if(!isset($updated->ok) && isset($updated->error)){
+            return new FacturascriptResponse(
+                false,
+                $updated->error
+            );
+        }
+
+        return new FacturascriptResponse(
+            true,
+            'Dirección modificada correctamente!',
+            (array)$updated
+        );
+    }
+
     public function all()
     {
         $clients = $this->get('clientes');

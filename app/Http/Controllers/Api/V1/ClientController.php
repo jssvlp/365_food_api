@@ -62,6 +62,17 @@ class ClientController extends Controller
         return $this->respondWithTokenAndUser($token, $client);
     }
 
+    public function update($codclient, Request $request, ClientService $service)
+    {
+        $updated = $service->update($codclient, $request);
+
+        return response()->json([
+            'success' => $updated->success,
+            'message' => $updated->message,
+            'data' => $updated->data['data']
+        ]);
+    }
+
     public function get($codclient): JsonResponse
     {
         $response = $this->clientService->getClient($codclient);

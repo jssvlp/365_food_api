@@ -38,7 +38,10 @@ class ProductService extends FacturascriptService
         return $productsCategories;
     }
 
-
+    public function search()
+    {
+        
+    }
 
     public function productsUsingApi()
     {

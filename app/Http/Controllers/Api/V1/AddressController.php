@@ -21,6 +21,17 @@ class AddressController extends Controller
         ]);
     }
 
+    public function update($id, Request $request, AddressService $service)
+    {
+        $updated = $service->update($id, $request);
+
+        return response()->json([
+            'success' => $updated->success,
+            'message' => $updated->message,
+            'data' => $updated->data['data']
+        ]);
+    }
+
 
     public function get($codcliente): \Illuminate\Http\JsonResponse
     {

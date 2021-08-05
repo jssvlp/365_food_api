@@ -33,6 +33,24 @@ class AddressService extends FacturascriptService
         );
     }
 
+    public function update($id, Request $request)
+    {
+        $updated = $this->put($id, $request->all(),'contactos');
+
+        if(!isset($updated->ok) && isset($updated->error)){
+            return new FacturascriptResponse(
+                false,
+                $updated->error
+            );
+        }
+
+        return new FacturascriptResponse(
+            true,
+            'Dirección modificada correctamente!',
+            (array)$updated
+        );
+    }
+
     public function byClient($codcliente)
     {
         return  Address::where('codcliente', $codcliente)->get();
