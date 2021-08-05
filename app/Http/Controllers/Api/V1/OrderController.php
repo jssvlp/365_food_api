@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Events\OrderCreated;
+use App\Events\OrderDelivered;
 use App\Services\ClientService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -76,7 +77,6 @@ class OrderController extends Controller
                 'status' => $_order->status,
                 'orderNumber' => $_order->orderNumber
             ],
-            
         ]);
     }
 
@@ -113,6 +113,9 @@ class OrderController extends Controller
             $order->status = 'Entregada';
             $order->delivered = true;
             $order->save();
+            
+            broadcast(new OrderTrackingUpdated($order));
+            broadcast(new OrderDelivered($order));
 
             return response()->json(['success' => true, 'message' => 'Orden finalizada correctamente!']);
         }
