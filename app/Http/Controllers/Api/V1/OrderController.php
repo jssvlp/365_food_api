@@ -62,8 +62,10 @@ class OrderController extends Controller
         ];
 
         $_order = Order::create($orderBody);
+        $pendingOrders =  Order::where('delivered', false)->get()->toArray();
 
         broadcast(new OrderCreated($_order));
+        broadcast(new OrderTrackingUpdatedForKitchen($pendingOrders));
 
         return response()->json([
             'success' => $order->success,
