@@ -80,6 +80,13 @@ class OrderController extends Controller
         ]);
     }
 
+    public function delivered()
+    {
+        $orders = Order::where('delivered', true)->get();
+
+        return response()->json(['success' => true, 'orders' => $orders]);
+    }
+
     public function pending()
     {
         $orders = Order::where('delivered', false)->get();
@@ -116,6 +123,9 @@ class OrderController extends Controller
             
             broadcast(new OrderTrackingUpdated($order));
             broadcast(new OrderDelivered($order));
+
+            $pendingOrders =  Order::where('delivered', false)->get()->toArray();
+            broadcast(new OrderTrackingUpdatedForKitchen($pendingOrders));
 
             return response()->json(['success' => true, 'message' => 'Orden finalizada correctamente!']);
         }
