@@ -17,6 +17,7 @@ class ProductService extends FacturascriptService
     {
         $categories = Category::whereNotNull('orden')
                                 ->orderBy('orden','ASC')
+                                ->where('codfamilia', '<>', 11)
                                 ->get();
         $productsCategories = [];
 
